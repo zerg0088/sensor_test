@@ -1,0 +1,412 @@
+<html>
+
+<head>
+    <title>Airfit</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    
+    <script src="{{ my_url_for(request, 'static', path='/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ my_url_for(request, 'static', path='/js/jquery.easing.min.js')}}"></script>
+    <script src="{{ my_url_for(request, 'static', path='/js/flickity.pkgd.min.js')}}"></script>
+
+    <link rel="stylesheet" href="{{ my_url_for(request, 'static', path='/css/flickity.css')}}" media="screen">
+
+    <link rel="stylesheet" href="{{ my_url_for(request, 'static', path='/css/style.css')}}" media="screen">
+    <link rel="stylesheet" href="{{ my_url_for(request, 'static', path='/css/style_mobile.css')}}" media="screen and (max-width: 768px)">
+</head>
+
+<script type="text/javascript">
+
+    var isReLoad = true;
+
+    $( window ).resize( function() {
+        /*
+        var maxHeight = Math.max.apply(null, $(".carousel_cell").map(function ()
+        {
+            return $(this).height();
+        }).get());
+
+        $(".carousel_cell").each(function (index, item) {
+            $(item).height(maxHeight);
+        });*/
+        
+        $('body').css({
+            "width": window.innerWidth,
+        });
+
+    });
+
+    $( window ).ready( function() {
+        $('body').css({
+            "width": window.innerWidth,
+        });
+    
+        $('#gnb_wrapper').hide();
+        $('#send_email').attr('disabled', true);
+        $('#bottom_arrow_wrapper').hide();
+        $('#logo_img').click(function() {
+            location.href = "/map"
+        });
+        $('#bottom_arrow_wrapper').click(function() {
+            $('body').animate({scrollTop: '0'}, 500);
+        });
+
+        var flky = new Flickity( '.main-carousel', {
+            cellAlign: 'left',
+            pageDots: false
+        });
+
+        $('.checkbox').click(function() {
+            if($(this).hasClass('checked')) {
+                $(this).removeClass('checked');
+                $('#send_email').attr('disabled', true);
+            } else {
+                $(this).addClass('checked');
+                $('#send_email').attr('disabled', false);
+            }
+        });
+    
+        $(window).scroll(function(){
+            var scrollY = $('body').scrollTop();
+            if ($('#section_2').position().top < scrollY) {
+                $('#gnb_wrapper').show();
+                $('#bottom_arrow_wrapper').show();
+
+                if(isReLoad) {
+                    isReLoad = false;
+                    flky.reloadCells();
+
+                    var maxHeight = Math.max.apply(null, $(".carousel_cell").map(function ()
+                    {
+                        return $(this).height();
+                    }).get());
+                    $('.carousel_cell').height(maxHeight);
+                }
+            } else {
+                $('#gnb_wrapper').hide();
+                $('#bottom_arrow_wrapper').hide();
+            }
+        });
+        
+        $("#gnb_wrapper span:eq(0)").click(function() {
+            $('body').animate({scrollTop: $('#section_2').position().top }, 500);
+        });
+
+        $("#gnb_wrapper span:eq(1)").click(function() {
+            $('body').animate({scrollTop: $('#section_3').position().top }, 500);
+        });
+
+        $("#gnb_wrapper span:eq(2)").click(function() {
+            $('body').animate({scrollTop: $('#section_4').position().top }, 500);
+        });
+
+        $("#gnb_wrapper span:eq(3)").click(function() {
+            $('body').animate({scrollTop: $('#section_5').position().top }, 500);
+        });
+
+        $("#gnb_wrapper span:eq(4)").click(function() {
+            $('body').animate({scrollTop: $('#section_6').position().top }, 500);
+        });
+
+
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault(); // 기본 동작 취소
+            const form = event.target;
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+            const result = await response.text();
+            // 응답 결과를 처리하는 함수 호출
+            handleResponse(result);
+        });
+        
+        // 응답 결과 처리 함수
+        function handleResponse(result) {
+            alert("문의사항이 접수 됐습니다.");
+            $('.checkbox').removeClass('checked');
+            $('#send_email').attr('disabled', true);
+            $('#contact_wrapper_right input[type=email]').val("");
+            $('#contact_wrapper_right input[type=text]').val("");
+            $('#contact_wrapper_right textarea').val("");
+        }
+    });
+
+
+</script>
+</head>
+
+<body>
+    <div id="gnb_wrapper">
+        <div id="gnb_logo">
+            <img src="{{ my_url_for(request, 'static', path='/images/mini_logo.png')}}"/>
+        </div>
+
+        <div id="gnb_wrapper_flex" >
+            <span>SKILL</span>
+            <span>DATA VOUCHER</span>
+            <span>RPRODUCT</span>
+            <span>PARTNERS</span>
+            <span>PATENT CERTIFICATE</span>
+        </div> 
+    </div>
+    <div id="bottom_arrow_wrapper">
+        <img src="{{ my_url_for(request, 'static', path='/images/top_arrow.svg')}}" alt="">
+    </div>
+    <section id="section_1" style="background-image: url('{{my_url_for(request, 'static', path='/images/section_1.png')}}');">
+        <div id="section1_trans" >
+            <div id="section1_span_wrapper">
+                <span id="section1_text1">Artificial Intelligence</span>
+                <span id="section1_text2">WE ARE AIR-FIT</span>
+                <span id="section1_text3">지속 가능한 미래를 위한 인텔리전스: AI 기반 환경 모니터링 및 분석을 통해 지속가능한 미래 가치를 창출 합니다.</span>
+            </div>
+        </div>
+        
+    </section>
+
+    <section id="section_2">
+        <div>
+            <span style="margin-top: 0px;">DEEP LEARNING</span>
+            <span>PUBLISHING</span>
+            <span>PRODUCT</span>
+            <span>DATA VOUCHER</span>
+        </div>
+    </section>
+
+    <section id="section_3">
+        <span class="title">DATA VOUCHER</span>
+        <div class="dv_product_wrapper" style="flex-direction: row-reverse;">
+            <img src="{{ my_url_for(request, 'static', path='/images/dv1.png')}}"/>
+            <div class="product_text_wrapper">
+                <span class="dv_name">DATA VOUCHER1</span>
+                <span class="dv_title">인공위성 수집분석 플랫폼</span>
+                <span class="dv_content">인공위성, 대기환경관측소, 공공데이터를 활용하여 데이터 수집, 전처리, 데이터셋 구축, GIS 기반 모델링 연구 활용 목적의 솔루션 제공</span>
+            </div>
+            
+        </div>
+
+        <div class="dv_product_wrapper">
+            <img src="{{ my_url_for(request, 'static', path='/images/dv2.png')}}"/>
+            <div class="product_text_wrapper">
+                <span class="dv_name">DATA VOUCHER2</span>
+                <span class="dv_title" >해양 폐기물 분석 플랫폼</span>
+                <span class="dv_content">드론을 통한 영상 촬영과 이미지처리 인공지능 기술을 활용해 해양폐기물을 추적하여 3D 맵핑,이 데이터를 바탕으로 야적량 추정 가능한 AI 알고리즘과 현황파악 플랫폼 개발</span>
+            </div>
+        </div>
+
+        <div class="dv_product_wrapper" style="flex-direction: row-reverse;">
+            <img src="{{ my_url_for(request, 'static', path='/images/dv3.png')}}"/>
+            <div class="product_text_wrapper">
+                <span class="dv_name">DATA VOUCHER3</span>
+                <span class="dv_title">교통상황 모니터링 플랫폼</span>
+                <span class="dv_content">교통사고 시뮬레이션 이미지와 상황 설명 텍스트 데이터를 활용하여 표준 교통사고 데이터를 추정하는 이미지 및 텍스트 기반의 AI 알고리즘과 분석 솔루션 개발</span>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="section_4">
+        <span class="title">PRODUCT</span>
+        <div id="product_wrapper">
+            <div class="item_wrapper" style="justify-self: right;">
+                <img src="{{ my_url_for(request, 'static', path='/images/p1.png')}}"/>
+                <div class="item_text_wrapper">
+                    <span class="item_title">빙하야, 녹지마 서비스</span>
+                    <span class="item_content">지구의 북극 빙하를 실시간으로 감지하고 부피를 추정해 사람들로 하여금 기후변화에 대한 인식을 제고하는 애플리케이션입니다.</span>
+                </div>
+            </div>
+
+            <div class="item_wrapper" >
+                <img src="{{ my_url_for(request, 'static', path='/images/p2.png')}}"/>
+                <div class="item_text_wrapper">
+                    <span class="item_title">환경센서 보정 서비스</span>
+                    <span class="item_content">보급형 환경측정 센서가 정확하게 작동하도록 데이터기반 인공지능 알고리즘을 적용하여 신뢰할 수 있는 제품으로 품질을 향상 시킵니다.</span>
+                </div>
+            </div>
+
+            <div class="item_wrapper" style="justify-self: right;">
+                <img src="{{ my_url_for(request, 'static', path='/images/p3.png')}}"/>
+                <div class="item_text_wrapper">
+                    <span class="item_title">위성 댐 수위 모니터링 솔루션</span>
+                    <span class="item_content">SAR / Sentinel 2A 의 인공위성 이미지를 이용하여 수위와 저수량을 파악는 AI 알고리즘으로 인공지능 챔피언십 대회 우승을 차지한 솔루션 입니다.</span>
+                </div>
+            </div>
+
+            <div class="item_wrapper" >
+                <img src="{{ my_url_for(request, 'static', path='/images/p4.png')}}"/>
+                <div class="item_text_wrapper">
+                    <span class="item_title">시공간 데이터 과학</span>
+                    <span class="item_content">인공위성, 환경, 사회, 경제 공공 데이터와 인공지능 기술을 활용한 시공간 데이터 분석, 예측 모델링, 플랫폼을 구축 합니다.</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="section_5" style="background-image: url('{{my_url_for(request, 'static', path='/images/section_5.png')}}');">
+        <span class="title">PARTNERS</span>
+        <span id="section5_content">에어핏은 안정적인 기술력으로 글로벌 협력사와 함께하고 있습니다</span>
+        <div id="logo_wrapper">
+            <!-- <img src="{{ my_url_for(request, 'static', path='/images/logo_green.png')}}" alt="green"> -->
+            <img src="{{ my_url_for(request, 'static', path='/images/logo_han.png')}}" alt="han">
+            <img src="{{ my_url_for(request, 'static', path='/images/logo_snu.png')}}" alt="snu">
+            <img src="{{ my_url_for(request, 'static', path='/images/logo_motov.png')}}" alt="motov">
+        </div>
+    </section>
+
+    <section id="section_6">
+        <div>
+            <span id="section6_title">PATENT CERTIFICATE</span>
+
+            <div id="slider_wrapper">
+                <div class="main-carousel">
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/t-5.png')}}" />
+                            <span class="carousel_cell_title">기술평가 우수기업 인증서</span>
+                            <span class="carousel_cell_content">T-5 (우수) 인공위성 데이터 수집/분석/가공 서비스</span>
+                        </div>
+                        
+                        <span class="carousel_cell_date">2022.07.20</span>
+                    </div>
+
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/0.jpeg')}}" />
+                            <span class="carousel_cell_title">(대상)인공지능 챔피언십 2021</span>
+                            <span class="carousel_cell_content">(대상)인공지능 챔피언십 2021</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.08.01</span>
+                    </div>
+                    
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/1.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 1</span>
+                            <span class="carousel_cell_content">보급형 먼지센서를 위한 보정 창치</span>
+                        </div>
+                        <span class="carousel_cell_date">2021.11.25</span>
+                    </div>
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/2.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 2</span>
+                            <span class="carousel_cell_content">지역 및 계절에 대한 특성이 반영된 농도측정모델 및 농도 추정모델을 이용한 미세먼지농도 측정방법, 장치 및 프로그램</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.07.21</span>
+                    </div>
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/3.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 3</span>
+                            <span class="carousel_cell_content">위성이미지를 통한 수위, 용적량, 유입량 및 오염도 측정 장치, 방법 및 프로그램</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.03.08</span>
+                    </div>
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/4.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 4</span>
+                            <span class="carousel_cell_content">위성이미지를 통한 미세먼지농도 측정 장치, 방법 및 프로그램</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.03.08</span>
+                    </div>
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/5.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 5</span>
+                            <span class="carousel_cell_content">인공지능모델을 이용한 위성이미지를 통해 수위, 용적량, 유입량 및 오염도 측정값 및 추정값을 제공하는 측정 장치, 방법 및 프로그램</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.09.06</span>
+                    </div>
+                    <div class="carousel_cell">
+                        <div>
+                            <img src="{{ my_url_for(request, 'static', path='/images/6.png')}}" />
+                            <span class="carousel_cell_title">특허자료 - 6</span>
+                            <span class="carousel_cell_content">환기 장치를 이용한 실내 공기질 관리 방법 및 장치</span>
+                        </div>
+                        <span class="carousel_cell_date">2022.12.28</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="section_7" style="background-image: url('{{my_url_for(request, 'static', path='/images/section_7.png')}}');">
+        <div>
+            <div id="contact_wrapper">
+                <div>
+                    <div id="contact_wrapper_left">
+                        <span>Contact Us</span>
+                    
+                        <span id="contact_pc">궁금하신 사항이 있으시면 오른쪽 문의하기를 이용해주세요.<br>담당자가 빠른시일 안에 답변드리겠습니다.</span>
+                        <span id="contact_mobile">궁금하신 사항이 있으시면 아래 문의하기를 이용해주세요. 담당자가 빠른시일 안에 답변드리겠습니다.</span>
+                    </div>
+                    <form id="contact_wrapper_right" action="" method="post">
+                        <span class="light_span">제목</span>
+                    
+                        <!-- // 글 넣을때 주황으로 나오는거 없애기. -->
+                        <input id="input_name" type="text" name="name" style="height: 52px; margin-top:10px;margin-bottom:24px" value="" placeholder="제목을 입력해주세요" aria-required="false" maxlength="100">
+                        <span class="light_span">이메일</span>
+                        <input id="input_email" type="email" name="email" style="height: 52px; margin-top:10px; margin-bottom:24px" value="" placeholder="이메일을 입력해주세요" required="" aria-required="true" maxlength="250" aria-invalid="false">
+                        <span class="light_span">문의내용</span>
+                        <textarea id="input_content" name="message" style="height: 132px; margin-bottom:25px;margin-top:10px" placeholder="내용을 입력해주세요" aria-required="false" aria-invalid="true"></textarea>
+                        <div style="display: flex;">
+                            <input type="checkbox">
+                            <div class="checkbox">
+                                <img src="{{ my_url_for(request, 'static', path='/images/check.svg')}}"/>
+                            </div>
+                            <label>이메일 수집에 동의합니다.</label>
+                        </div>
+                        <input type="submit" id="send_email" value="SEND EMAIL"/>
+                    </form>
+                </div>
+        
+            </div>
+        </div>
+
+        
+    </section>
+
+    <footer id="pc_footer">
+        <div>
+            <img id="footer_img" src="{{ my_url_for(request, 'static', path='/images/footer_logo.png')}}" alt="">
+            <div id="footer_span_wrapper">
+                <span>
+                    주소<span class="footer_content margin_right_33">[04779] 서울 성동구 아차산로 38 (개풍빌딩 2층)</span> 
+                    TEL<span class="footer_content">010-9986-6856</span>
+                </span>
+                <span style="margin-top:10px">
+                    대표<span class="footer_content margin_right_33">김태현</span>
+                    사업자 등록번호<span class="footer_content margin_right_33">660-88-01911</span> 
+                    E-mail<span class="footer_content">asderio@airfit.ai</span>
+                </span>
+            </div>
+        </div>
+        <div></div>
+        <span id="copyright">Copyright © 2023 AIRFIT. All rights reserved.</span>
+    </footer>
+
+    <footer id="mobile_footer">
+        <div style="display:flex;flex-direction: column;">
+            <img id="footer_img" src="{{ my_url_for(request, 'static', path='/images/footer_logo.png')}}" style="display: block;" alt="">
+            <div id="footer_span_wrapper">
+                <span>
+                    주소<span class="footer_content">[04779] 서울 성동구 아차산로 38 (개풍빌딩 2층)</span><br> 
+                    TEL<span class="footer_content">010-9986-6856</span>
+                </span>
+                <span style="margin-top:20px">
+                    대표<span class="footer_content">김태현</span><br>
+                    사업자 등록번호<span class="footer_content">660-88-01911</span><br>
+                    E-mail<span class="footer_content">asderio@airfit.ai</span>
+                </span>
+            </div>
+        </div>
+        <div></div>
+        <span id="copyright">Copyright © 2023 AIRFIT. All rights reserved.</span>
+    </footer>
+</html>
