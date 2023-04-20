@@ -115,19 +115,20 @@ async def update_base_device(data: dict):
         return {"message": "error"}
 
 
-# @app.post("/chart")
-# async def chart(data: dict):
-#     try:
-#         with conn.cursor() as cursor:
-#             sql = "SELECT * FROM device_value WHERE did = " + str(data['id']) + " ORDER BY timestamp DESC LIMIT 1000"
-#             cursor.execute(sql)
-#             device = cursor.fetchone()
-#             if device is None:
-#                 return {"message": "Data not found"}
-#             else:
-#                 return {"value": device}
-#     except Exception as e:
-#         return {"message": "error"}
+@app.post("/chart")
+async def chart(data: dict):
+    try:
+        with conn.cursor() as cursor:
+            sql = "SELECT v1, v2, v3 FROM device_value WHERE did = " + str(data['id']) + " ORDER BY timestamp DESC LIMIT 1000"
+            cursor.execute(sql)
+            values = cursor.fetchall()
+            
+            if values is None:
+                return {"message": "Data not found"}
+            else:
+                return {"value": values}
+    except Exception as e:
+        return {"message": "error"}
 
 # db 에서 데이터 가져와서 넘겨준다.
 

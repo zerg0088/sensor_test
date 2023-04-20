@@ -11,6 +11,7 @@
     <script src="{{ my_url_for(request, 'static', path='/js/jquery-3.6.0.min.js')}}"></script>
     <script src="{{ my_url_for(request, 'static', path='/js/jquery.easing.min.js')}}"></script>
     <script src="{{ my_url_for(request, 'static', path='/js/bootstrap.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         /* 헤더 스타일 */
@@ -109,13 +110,106 @@
         }
     }
 
+    var lineChartV1;
+    var lineChartV2;
+    var lineChartV3;
+    
+    function chartInit() {
+        var ctx = document.getElementById('chart_v1');
+        lineChartV1 = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'CH1 전압',
+                    data: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        align: 'start'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        display: false // x축 라벨 비활성화
+                    }
+                }
+            }
+        });
 
-    // 
-    function drawLineChart() {
+        var ctx = document.getElementById('chart_v2');
+        lineChartV2 = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'CH2 전압',
+                    data: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        align: 'start'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        display: false // x축 라벨 비활성화
+                    }
+                }
+            }
+        });
 
+        var ctx = document.getElementById('chart_v3');
+        lineChartV3 = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'CH3 전압',
+                    data: [],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        align: 'start'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        display: false // x축 라벨 비활성화
+                    }
+                }
+            }
+        });
     }
 
-    //${getStateColor(device.alert_v_rate1, )}
+    function drawLineChart(chart, array) {
+        
+        console.log(lineChartV1);
+        chart.data.labels = array;
+        chart.data.datasets[0].data = array;
+        
+        chart.update();
+    }
+
+
     function makeDeviceCell(device) {
         var cell = 
         `<tr>
@@ -209,7 +303,41 @@
         $("#graph_button_" + device.id).click( function() {
             const drawer = $('#drawer');
             drawer.toggleClass('open');
-            drawer.toggleClass('closed');    
+            drawer.toggleClass('closed'); 
+            
+            if(drawer.hasClass('open')) {
+
+                const data = { 
+                    id: device.id
+                };
+
+                fetch('http://'+ip+'/chart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var list = data.value;
+                    var v1Array = [];
+                    var v2Array = [];
+                    var v3Array = [];
+
+                    for (var i = 0; i<list.length;i++) {
+                        v1Array.unshift(list[i].v1 != null ? list[i].v1 : 0);
+                        v2Array.unshift(list[i].v2 != null ? list[i].v2 : 0);
+                        v3Array.unshift(list[i].v3 != null ? list[i].v3 : 0);
+                    }
+
+                    drawLineChart(lineChartV1, v1Array);
+                    drawLineChart(lineChartV2, v2Array);
+                    drawLineChart(lineChartV3, v3Array);
+                                    
+                })
+                .catch(error => console.error(error))
+            }
         });
 
         
@@ -260,6 +388,7 @@
         for(const device of deviceList) { 
             makeDeviceCell(device);
         }
+        chartInit();
 
         setInterval(updateData, 2000);
         updateData();
@@ -294,8 +423,31 @@
         <tbody id="table">
         </tbody>
     </table>
-    <div id="drawer" class="closed">
+    <style>
+        .graph_title {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .chart {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
         
+    </style>
+    <div id="drawer" class="closed">
+        <span class="graph_title">CH1 전압 그래프</span>
+        <div>
+            <canvas class="chart" id="chart_v1"></canvas>
+        </div>
+        <span class="graph_title">CH2 전압 그래프</span>
+        <div>
+            <canvas class="chart" id="chart_v2"></canvas>
+        </div>
+        <span class="graph_title">CH3 전압 그래프</span>
+        <div>
+            <canvas class="chart" id="chart_v3"></canvas>
+        </div>
     </div>
 
 </body>
