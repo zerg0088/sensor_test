@@ -27,8 +27,8 @@ app.add_middleware(
 def my_url_for(request: Request, name: str, **path_params: any) -> str:
     url = request.url_for(name, **path_params)
     parsed = list(urllib.parse.urlparse(url))
-    # parsed[1] = '52.79.233.189' 
-    parsed[1] = '127.0.0.1:8000'
+    parsed[1] = '43.201.115.217' 
+    # parsed[1] = '127.0.0.1:8000'
     
     # parsed[1] = 'airfit.ai'  # Change the domain name
     return urllib.parse.urlunparse(parsed)
