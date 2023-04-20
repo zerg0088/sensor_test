@@ -1,2 +1,5 @@
 fastapi
 uvicorn
+pymysql
+passlib
+PyJWT

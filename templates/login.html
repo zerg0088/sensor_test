@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>AL-INK</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    
+    <link rel="stylesheet" href="{{ my_url_for(request, 'static', path='/css/bootstrap.min.css')}}" media="screen">
+
+    <script src="{{ my_url_for(request, 'static', path='/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{ my_url_for(request, 'static', path='/js/jquery.easing.min.js')}}"></script>
+    <script src="{{ my_url_for(request, 'static', path='/js/bootstrap.min.js')}}"></script>
+
+    
+</head>
+
+<script type="text/javascript">
+
+    $( window ).ready( function() {
+        $('#login_button').click( function() {
+            
+            var id = $("#username").val();
+            var pass = $("#password").val();
+
+            if(id == "test@test.com" && pass == "1234") {
+                window.location = "/main";
+            } else {
+                alert("ID, PW를 다시 입력해주세요.");
+            }
+        });
+    
+    });
+
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center fw-bold my-4">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- <form id="frmLogin" name="frmLogin" action="/login/action" method="post"> -->
+                        <form id="frmLogin" name="frmLogin"></form>
+                            
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="username" name="username" type="email" required>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" name="password" type="password" required>
+                            </div>
+                            <!-- <div class="form-check mb-3">
+                                <input class="form-check-input" id="remember-me" name="remember-me" type="checkbox">
+                                <label class="form-check-label" for="remember-me">Remember-me</label>
+                            </div> -->
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            
+                                <!-- <a type="button" class="small" onclick="javascript:location.href='/member/join'">Sign up</a> -->
+                                <button id="login_button" type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
