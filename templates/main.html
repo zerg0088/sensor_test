@@ -82,6 +82,9 @@
 </head>
 
 <script type="text/javascript">
+
+    //var ip = "localhost:8000";
+    var ip = "43.201.115.217";
     // user state 
     // ID
     var user_name = "test name";
@@ -104,6 +107,12 @@
         } else {
             return "🟢";
         }
+    }
+
+
+    // 
+    function drawLineChart() {
+
     }
 
     //${getStateColor(device.alert_v_rate1, )}
@@ -169,7 +178,7 @@
                 alert_v_rate3 : baseVolt3
             };
 
-            fetch('http://localhost:8000/update_base_data', {
+            fetch('http://'+ip+'/update_base_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -212,7 +221,7 @@
                 id: device.id
             };
             
-            fetch('http://localhost:8000/update_data', {
+            fetch('http://'+ip+'/update_data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

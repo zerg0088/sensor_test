@@ -1,7 +1,5 @@
 import pymysql
 import uvicorn 
-from fastapi.responses import HTMLResponse
-
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 # from passlib.context import CryptContext
 # from datetime import datetime, timedelta
@@ -29,12 +27,10 @@ def my_url_for(request: Request, name: str, **path_params: any) -> str:
     parsed = list(urllib.parse.urlparse(url))
     parsed[1] = '43.201.115.217' 
     # parsed[1] = '127.0.0.1:8000'
-    
-    # parsed[1] = 'airfit.ai'  # Change the domain name
+
     return urllib.parse.urlunparse(parsed)
 
 app.mount("/static", StaticFiles(directory="static"), name="static") 
-#app.mount("/node_modules", StaticFiles(directory="node_modules"), name="node_modules") 
 
 templates = Jinja2Templates(directory="templates") 
 templates.env.globals['my_url_for'] = my_url_for
