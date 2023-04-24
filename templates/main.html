@@ -217,12 +217,12 @@
             <td id="${device.id}_1_state">🟢</td>
             <td>CH1</td>
             <td id="${device.id}_1_v"></td>
-            <td><input type="number" name="edittext" id="${device.id}_1_bv" value="${device.alert_v_rate1}"> kV</td>
+            <!-- <td><input type="number" name="edittext" id="${device.id}_1_bv" value="${device.alert_v_rate1}"> kV</td> -->
             <td id="${device.id}_1_a"></td>
             <td>${device.alert_a_rate1}mA</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td rowspan='3'></td>
+            <td rowspan='3'></td>
+            <td rowspan='3'></td>
             <td rowspan='3'>
                 <div>
                     <button id="v_button_${device.id}" type="submit" class="btn btn-primary">기준전압 셋팅</button>
@@ -239,23 +239,19 @@
             <td id="${device.id}_2_state">🟢</td>
             <td>CH2</td>
             <td id="${device.id}_2_v"></td>
-            <td><input type="number" name="edittext" id="${device.id}_2_bv" value="${device.alert_v_rate2}"> kV</td>
+            <!-- <td><input type="number" name="edittext" id="${device.id}_2_bv" value="${device.alert_v_rate2}"> kV</td> -->
             <td id="${device.id}_2_a"></td>
             <td>${device.alert_a_rate2}mA</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            
         </tr>
         <tr>
             <td id="${device.id}_3_state">🟢</td>
             <td>CH3</td>
             <td id="${device.id}_3_v"></td>
-            <td><input type="number" name="edittext" id="${device.id}_3_bv" value="${device.alert_v_rate3}"> kV</td>
+            <!-- <td><input type="number" name="edittext" id="${device.id}_3_bv" value="${device.alert_v_rate3}"> kV</td> -->
             <td id="${device.id}_3_a"></td>
             <td>${device.alert_a_rate3}mA</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            
         </tr>`
 
         $("#table").append(cell);
@@ -306,7 +302,7 @@
             drawer.toggleClass('closed'); 
             
             if(drawer.hasClass('open')) {
-
+                console.log(device.id);
                 const data = { 
                     id: device.id
                 };
@@ -411,7 +407,6 @@
                 <th>상태</th>
                 <th>체널</th>
                 <th>전압</th>
-                <th>기준전압</th>
                 <th>전류</th>
                 <th>기준전류</th>
                 <th>온도</th>
