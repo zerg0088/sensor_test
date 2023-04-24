@@ -96,6 +96,7 @@ async def update_device(data: dict):
             else:
                 return {"value": device}
     except Exception as e:
+        print("ss error 1" + str(e))
         return {"message": "error"}
     
     
@@ -111,7 +112,7 @@ async def update_base_device(data: dict):
             
             return {"message": "success"}
     except Exception as e:
-        print(e)
+        print("ss error 2" + str(e))
         return {"message": "error"}
 
 
@@ -128,6 +129,7 @@ async def chart(data: dict):
             else:
                 return {"value": values}
     except Exception as e:
+        print("ss error 3" + str(e))
         return {"message": "error"}
 
 # db 에서 데이터 가져와서 넘겨준다.
