@@ -81,6 +81,7 @@ async def main(request: Request):
             else:
                 return templates.TemplateResponse("main.html", {"request": request, "devices": devices, "user": ""})
     except Exception as e:
+        print("ss error main" + str(e))
         return {"error": str(e)}
 
 
