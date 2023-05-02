@@ -7,10 +7,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles 
 from fastapi import FastAPI, Depends, HTTPException
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from passlib.context import CryptContext
 from datetime import timedelta
-from jose import JWTError, jwt
 from fastapi.middleware.cors import CORSMiddleware
 import urllib
 
