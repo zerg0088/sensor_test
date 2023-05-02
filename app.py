@@ -1,8 +1,5 @@
 import pymysql
 import uvicorn 
-# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-# from passlib.context import CryptContext
-# from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
@@ -10,6 +7,10 @@ from fastapi.templating import Jinja2Templates
 from starlette.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles 
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from passlib.context import CryptContext
+from datetime import timedelta
+from jose import JWTError, jwt
 from fastapi.middleware.cors import CORSMiddleware
 import urllib
 
@@ -83,6 +84,21 @@ async def main(request: Request):
     except Exception as e:
         print("ss error main" + str(e))
         return {"error": str(e)}
+    
+    
+@app.get("/main2", response_class=HTMLResponse) 
+async def main2(request: Request): 
+    try:
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM device"
+            cursor.execute(sql)
+            devices = cursor.fetchall()
+            if devices is None:
+                return {"message": "Data not found"}
+            else:
+                return templates.TemplateResponse("main.html", {"request": request, "devices": devices, "user": 0})
+    except Exception as e:
+        return {"error": str(e)}
 
 
 @app.post("/update_data")
@@ -151,27 +167,27 @@ async def chart(data: dict):
 # ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # 데이터베이스 연결 설정
-# @app.get("/")
-# async def root():
-#     connection = pymysql.connect(
-#         host="localhost",
-#         user="root",
-#         password="54ecv9g8",
-#         database="dust_sensor",
-#         cursorclass=pymysql.cursors.DictCursor
-#     )
-#     cursor = connection.cursor()
-#     # SQL 쿼리 실행
-#     sql = "SELECT * FROM device_value"
-#     cursor.execute(sql)
+@app.get("/")
+async def root():
+    connection = pymysql.connect(
+        host="localhost",
+        user="root",
+        password="54ecv9g8",
+        database="dust_sensor",
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    cursor = connection.cursor()
+    # SQL 쿼리 실행
+    sql = "SELECT * FROM device_value"
+    cursor.execute(sql)
 
-#     # 쿼리 결과 반환
-#     result = cursor.fetchall()
+    # 쿼리 결과 반환
+    result = cursor.fetchall()
     
-#     cursor.close()
-#     connection.close()
+    cursor.close()
+    connection.close()
 
-#     return result
+    return result
 
 
 # def verify_password(plain_password, hashed_password):

@@ -3,3 +3,4 @@ uvicorn
 pymysql
 passlib
 PyJWT
+python-jose

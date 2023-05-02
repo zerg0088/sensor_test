@@ -93,6 +93,12 @@
     var org = "org";
     var auth_level = 1;
 
+    {% if user|length %}
+        auth_level = {{ user }};
+    {% else %}
+        auth_level = 1;
+    {% endif %}
+
     const deviceList = [
         {% for device in devices %}
             {id: {{ device.ID }},name: "{{ device.NAME }}", status: "{{ device.STATUS }}", 
@@ -109,6 +115,8 @@
             return "🟢";
         }
     }
+
+    // 관리자 인지 판단하기.
 
     var lineChartV1;
     var lineChartV2;
