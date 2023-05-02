@@ -89,6 +89,7 @@ async def main(request: Request):
 async def update_device(data: dict):
     try:
         with conn.cursor() as cursor:
+            print(data)
             sql = "SELECT * FROM device_value WHERE did = " + str(data['id']) + " ORDER BY timestamp DESC LIMIT 1"
             cursor.execute(sql)
             device = cursor.fetchone()
@@ -106,6 +107,7 @@ async def update_base_device(data: dict):
     print(data)
     try:
         with conn.cursor() as cursor:
+            print(data)
             sql = "UPDATE device SET ALERT_V_RATE1 = %s, ALERT_V_RATE2 = %s, ALERT_V_RATE3 = %s WHERE ID = %s"
             values = (data['alert_v_rate1'], data['alert_v_rate2'], data['alert_v_rate3'], data['id'])
             cursor.execute(sql, values)
@@ -121,6 +123,7 @@ async def update_base_device(data: dict):
 async def chart(data: dict):
     try:
         with conn.cursor() as cursor:
+            print(data)
             sql = "SELECT v1, v2, v3 FROM device_value WHERE did = " + str(data['id']) + " ORDER BY timestamp DESC LIMIT 1000"
             cursor.execute(sql)
             values = cursor.fetchall()
@@ -148,27 +151,27 @@ async def chart(data: dict):
 # ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # 데이터베이스 연결 설정
-@app.get("/")
-async def root():
-    connection = pymysql.connect(
-        host="localhost",
-        user="root",
-        password="54ecv9g8",
-        database="dust_sensor",
-        cursorclass=pymysql.cursors.DictCursor
-    )
-    cursor = connection.cursor()
-    # SQL 쿼리 실행
-    sql = "SELECT * FROM device_value"
-    cursor.execute(sql)
+# @app.get("/")
+# async def root():
+#     connection = pymysql.connect(
+#         host="localhost",
+#         user="root",
+#         password="54ecv9g8",
+#         database="dust_sensor",
+#         cursorclass=pymysql.cursors.DictCursor
+#     )
+#     cursor = connection.cursor()
+#     # SQL 쿼리 실행
+#     sql = "SELECT * FROM device_value"
+#     cursor.execute(sql)
 
-    # 쿼리 결과 반환
-    result = cursor.fetchall()
+#     # 쿼리 결과 반환
+#     result = cursor.fetchall()
     
-    cursor.close()
-    connection.close()
+#     cursor.close()
+#     connection.close()
 
-    return result
+#     return result
 
 
 # def verify_password(plain_password, hashed_password):
